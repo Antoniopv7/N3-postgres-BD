@@ -33,7 +33,7 @@ while not salir:
         menu_anterior = False
         x = 0
         while not menu_anterior:
-            print("A seleccionado la funcion de Insertar datos")
+            print("A seleccionado la funcion de insertar datos")
             print("En que tabla desea insertar datos:")
             print("")
             print("1. Tabla cliente")
@@ -51,23 +51,23 @@ while not salir:
             x = pedirNumeroEntero()
 
             if x==1:
-
+                print("")
             elif x==2:
-
+                print("")
             elif x==3:
-
+                print("")
             elif x==4:
-
+                print("")
             elif x==5:
-
+                print("")
             elif x==6:
-
+                print("")
             elif x==7:
-
+                print("")
             elif x==8:
-
+                print("")
             elif x==9:
-
+                print("")
             elif x==10:
                 menu_anterior = True
                 print("Volviendo al menu anterior")
@@ -121,9 +121,95 @@ while not salir:
             else:
                 print("seleccione una de las opciones")
     elif opcion == 3:
-        print("Opcion 3")
+        menu_anterior = False
+        x = 0
+        while not menu_anterior:
+            print("A seleccionado la funcion de actualizar datos")
+            print("En que tabla desea actualizar los datos:")
+            print("")
+            print("1. Tabla cliente")
+            print("2. Tabla empleado")
+            print("3. Tabla despacho")
+            print("4. Tabla factura")
+            print("5. Tabla pago")
+            print("6. Tabla boleta")
+            print("7. Tabla producto")
+            print("8. Tabla proveedor")
+            print("9. Tabla pedido")
+            print("10. Volver al menu anterior")
+            print("")
+
+            x = pedirNumeroEntero()
+
+            if x==1:
+                print("")
+            elif x==2:
+                print("")
+            elif x==3:
+                print("")
+            elif x==4:
+                print("")
+            elif x==5:
+                print("")
+            elif x==6:
+                print("")
+            elif x==7:
+                print("")
+            elif x==8:
+                print("")
+            elif x==9:
+                print("")
+            elif x==10:
+                menu_anterior = True
+                print("Volviendo al menu anterior")
+                print("")
+            else:
+                print("seleccione una de las opciones")
     elif opcion == 4:
-        print("Opcion 4")
+        menu_anterior = False
+        x = 0
+        while not menu_anterior:
+            print("A seleccionado la funcion de Eliminar datos")
+            print("En que tabla desea eliminar datos:")
+            print("")
+            print("1. Tabla cliente")
+            print("2. Tabla empleado")
+            print("3. Tabla despacho")
+            print("4. Tabla factura")
+            print("5. Tabla pago")
+            print("6. Tabla boleta")
+            print("7. Tabla producto")
+            print("8. Tabla proveedor")
+            print("9. Tabla pedido")
+            print("10. Volver al menu anterior")
+            print("")
+
+            x = pedirNumeroEntero()
+
+            if x==1:
+                print("")
+            elif x==2:
+                print("")
+            elif x==3:
+                print("")
+            elif x==4:
+                print("")
+            elif x==5:
+                print("")
+            elif x==6:
+                print("")
+            elif x==7:
+                print("")
+            elif x==8:
+                print("")
+            elif x==9:
+                print("")
+            elif x==10:
+                menu_anterior = True
+                print("Volviendo al menu anterior")
+                print("")
+            else:
+                print("seleccione una de las opciones")
     elif opcion == 5:
         salir = True
     else:

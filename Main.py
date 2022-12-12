@@ -5,7 +5,7 @@ connection=psycopg2.connect(
         host='localhost',
         user='postgres',
         password='Antonivan0',
-        database='BDproyect'
+        database='NecuDB'
     )
 
 # Utilizacion del cursor
@@ -62,16 +62,8 @@ while not salir:
 
             if x==1:
                 #sentencia
-                sql = 'INSERT INTO cliente (cliente_id,nombre,apellido,rut,direccion,telefono) VALUES(%s,%s,%s,%s,%s,%s)'
+                sql='INSERT INTO cliente (nombre,apellido,rut,direccion,telefono) VALUES(%s,%s,%s,%s,%s)'
                 #solicitud de datos
-                correcto=False
-                cliente_id = 0
-                while(not correcto):
-                    try:
-                        cliente_id=int(input("Ingrese el id del cliente: "))
-                        correcto=True
-                    except ValueError:
-                        print("Error, introduzca un numero entero")
                 nombre=input("Ingrese el nombre del cliente: ")
                 apellido=input("Ingrese el apellido del cliente: ")
                 rut=input("Ingrese el rut del cliente: ")
@@ -85,15 +77,31 @@ while not salir:
                     except ValueError:
                         print("Error, introduzca un numero entero")
                 #recoleccion de datos
-                datos=(cliente_id,nombre,apellido,rut,direccion,telefono)
+                datos=(nombre,apellido,rut,direccion,telefono)
                 #hacer uso del metodo execute
                 cursor.execute(sql,datos)
                 #guardar registro
                 connection.commit()
                 #registros insertados
                 print('Datos insertados')
-
+                print("")
             elif x==2:
+                sql='INSERT INTO empleado (nombre,apellido,rut,sueldo) VALUES(%s,%s,%s,%s)'
+                nombre=input("Ingrese el nombre del empleado: ")
+                apellido=input("Ingrese el apellido del empleado: ")
+                rut=input("Ingrese el rut del empleado: ")
+                a=False
+                sueldo=0
+                while(not a):
+                    try:
+                        sueldo=int(input("Ingrese el sueldo del empleado: "))
+                        a=True
+                    except ValueError:
+                        print("Error, Ingrese un numero porfavor")
+                datos=(nombre,apellido,rut,sueldo)
+                cursor.execute(sql,datos)
+                connection.commit()
+                print("Datos insertados")
                 print("")
             elif x==3:
                 print("")
@@ -138,7 +146,7 @@ while not salir:
             if x == 1:
                 lista=["Id","Nombre","Apellido","Rut","Direccion","Telefono"]
                 print(lista)
-                sql='SELECT * FROM cliente'
+                sql='SELECT * FROM cliente ORDER BY cliente_id'
                 cursor.execute(sql)
                 registro=cursor.fetchall()
                 for fila in registro:

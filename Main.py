@@ -155,7 +155,7 @@ while not salir:
             elif x == 2:
                 lista=["Id","Nombre","Apellido","Rut","Sueldo"]
                 print(lista)
-                sql='SELECT * FROM empleado'
+                sql='SELECT * FROM empleado ORDER BY empleado_id'
                 cursor.execute(sql)
                 registro=cursor.fetchall()
                 for fila in registro:
@@ -199,8 +199,51 @@ while not salir:
             x = pedirNumeroEntero()
 
             if x==1:
-                print("")
+                sql='UPDATE cliente SET nombre=%s,apellido=%s,rut=%s,direccion=%s,telefono=%s WHERE cliente_id=%s'
+                sql_id='SELECT cliente_id FROM cliente ORDER BY cliente_id'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                print("Seleccione uno de los siguiente ID a modificar: ",registro)
+                id_cliente=input(": ")
+                nombre=input("Ingrese nombre: ")
+                apellido=input("Ingrese apellido: ")
+                rut=input("Ingrese rut: ")
+                direccion=input("Ingrese direccion: ")
+                a=False
+                telefono=0
+                while(not a):
+                    try:
+                        telefono=int(input("Ingrese el sueldo del empleado: "))
+                        a=True
+                    except ValueError:
+                        print("ERROR, Ingrese un numero telefonico correcto")
+                datos=(nombre,apellido,rut,direccion,telefono,id_cliente)
+                cursor.execute(sql,datos)
+                connection.commit()
+                print("Datos actualizados correctamente")
+                print("")    
             elif x==2:
+                sql='UPDATE empleado SET nombre=%s,apellido=%s,rut=%s,sueldo=%s WHERE empleado_id=%s'
+                sql_id='SELECT empleado_id FROM empleado ORDER BY empleado_id'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                print("Seleccione uno de los siguiente ID a modificar: ",registro)
+                id_empleado=input(": ")
+                nombre=input("Ingrese nombre: ")
+                apellido=input("Ingrese apellido: ")
+                rut=input("Ingrese rut: ")
+                a=False
+                sueldo=0
+                while(not a):
+                    try:
+                        sueldo=int(input("Ingrese el sueldo del empleado: "))
+                        a=True
+                    except ValueError:
+                        print("Error, Ingrese un numero porfavor")
+                datos=(nombre,apellido,rut,sueldo,id_empleado)
+                cursor.execute(sql,datos)
+                connection.commit()
+                print("Datos actualizados correctamente")
                 print("")
             elif x==3:
                 print("")

@@ -273,13 +273,11 @@ while not salir:
             print("1. Tabla cliente")
             print("2. Tabla empleado")
             print("3. Tabla despacho")
-            print("4. Tabla factura")
-            print("5. Tabla pago")
-            print("6. Tabla boleta")
-            print("7. Tabla producto")
-            print("8. Tabla proveedor")
-            print("9. Tabla pedido")
-            print("10. Volver al menu anterior")
+            print("4. Tabla pago")
+            print("5. Tabla producto")
+            print("6. Tabla proveedor")
+            print("7. Tabla pedido")
+            print("8. Volver al menu anterior")
             print("")
 
             x = pedirNumeroEntero()
@@ -305,20 +303,56 @@ while not salir:
                 print("Registro eliminado")
                 print("")
             elif x==3:
+                sql='DELETE FROM despacho WHERE despacho_id=%s'
+                sql_id='SELECT despacho_id FROM despacho ORDER BY despacho_id'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                despacho_id=input(f"Ingrese el id del registro a eliminar {registro}: ")
+                cursor.execute(sql,despacho_id)
+                connection.commit()
+                print("Registro eliminado")
                 print("")
             elif x==4:
+                sql='DELETE FROM pago WHERE cod_pago=%s'
+                sql_id='SELECT cod_pago FROM pago ORDER BY cod_pago'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                pago_id=input(f"Ingrese el id del registro a eliminar {registro}: ")
+                cursor.execute(sql,pago_id)
+                connection.commit()
+                print("Registro eliminado")
                 print("")
             elif x==5:
+                sql='DELETE FROM producto WHERE producto_id=%s'
+                sql_id='SELECT producto_id FROM producto ORDER BY producto_id'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                producto_id=input(f"Ingrese el id del registro a eliminar {registro}: ")
+                cursor.execute(sql,producto_id)
+                connection.commit()
+                print("Registro eliminado")
                 print("")
             elif x==6:
+                sql='DELETE FROM proveedor WHERE proveedor_id=%s'
+                sql_id='SELECT proveedor_id FROM proveedor ORDER BY proveedor_id'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                proveedor_id=input(f"Ingrese el id del registro a eliminar {registro}: ")
+                cursor.execute(sql,proveedor_id)
+                connection.commit()
+                print("Registro eliminado")
                 print("")
             elif x==7:
+                sql='DELETE FROM pedido WHERE codigo=%s'
+                sql_id='SELECT codigo FROM pedido ORDER BY codigo'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                codigo=input(f"Ingrese el id del registro a eliminar {registro}: ")
+                cursor.execute(sql,codigo)
+                connection.commit()
+                print("Registro eliminado")
                 print("")
             elif x==8:
-                print("")
-            elif x==9:
-                print("")
-            elif x==10:
                 menu_anterior = True
                 print("Volviendo al menu anterior")
                 print("")

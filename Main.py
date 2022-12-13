@@ -203,8 +203,7 @@ while not salir:
                 sql_id='SELECT cliente_id FROM cliente ORDER BY cliente_id'
                 cursor.execute(sql_id)
                 registro=cursor.fetchall()
-                print("Seleccione uno de los siguiente ID a modificar: ",registro)
-                id_cliente=input(": ")
+                id_cliente=input(f"Seleccione uno de los siguiente ID a modificar {registro}: ")
                 nombre=input("Ingrese nombre: ")
                 apellido=input("Ingrese apellido: ")
                 rut=input("Ingrese rut: ")
@@ -227,8 +226,7 @@ while not salir:
                 sql_id='SELECT empleado_id FROM empleado ORDER BY empleado_id'
                 cursor.execute(sql_id)
                 registro=cursor.fetchall()
-                print("Seleccione uno de los siguiente ID a modificar: ",registro)
-                id_empleado=input(": ")
+                id_empleado=input(f"Seleccione uno de los siguiente ID a modificar {registro}: ")
                 nombre=input("Ingrese nombre: ")
                 apellido=input("Ingrese apellido: ")
                 rut=input("Ingrese rut: ")
@@ -287,8 +285,24 @@ while not salir:
             x = pedirNumeroEntero()
 
             if x==1:
+                sql='DELETE FROM cliente WHERE cliente_id=%s'
+                sql_id='SELECT cliente_id FROM cliente ORDER BY cliente_id'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                cliente_id=input(f"Ingrese el id del registro a eliminar {registro}: ")
+                cursor.execute(sql,cliente_id)
+                connection.commit()
+                print("Registro eliminado")
                 print("")
             elif x==2:
+                sql='DELETE FROM empleado WHERE empleado_id=%s'
+                sql_id='SELECT empleado_id FROM empleado ORDER BY empleado_id'
+                cursor.execute(sql_id)
+                registro=cursor.fetchall()
+                empleado_id=input(f"Ingrese el id del registro a eliminar {registro}: ")
+                cursor.execute(sql,empleado_id)
+                connection.commit()
+                print("Registro eliminado")
                 print("")
             elif x==3:
                 print("")

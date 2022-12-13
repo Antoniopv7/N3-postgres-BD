@@ -329,7 +329,5 @@ while not salir:
     else:
         print ("Seleccione una de las opciones")
 
-cursor.close()
-connection.close()
 print ("")
 print ("Usted esta saliendo de la Base de datos")

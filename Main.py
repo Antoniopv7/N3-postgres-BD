@@ -5,7 +5,7 @@ connection=psycopg2.connect(
         host='localhost',
         user='postgres',
         password='Antonivan0',
-        database='NecuDB'
+        database='NecuDB2'
     )
 
 # Utilizacion del cursor

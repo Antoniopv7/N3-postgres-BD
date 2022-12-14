@@ -16,7 +16,8 @@ def Guardar_nuevo_cliente(e1,e2,e3,e4,e5):
     )
     cursor=conn.cursor()
     query= 'INSERT INTO cliente (nombre,apellido,rut,direccion,telefono) VALUES(%s,%s,%s,%s,%s)'
-    cursor.execute(query, (nombre,apellido,rut,direccion,telefono))
+    int(e5)
+    cursor.execute(query, (e1,e2,e3,e4,e5))
     print("Datos guardados")
     conn.commit()
     conn.close()
@@ -65,21 +66,20 @@ def buscar_cliente(cliente_id):
 
     conn.commit()
     conn.close()
-
-def v_cliente():
-    v_cliente=Toplevel()
-    v_cliente.geometry("250x200")
-    v_cliente.title("Agregar Cliente")
-
 # Funciones
 
 # agrega nombre del nuevo cliente
 x=Label(root,text="Cliente").grid(row=0,column=0)
-x=Label(root).grid(row=1,column=0)
-boton = Button(root, text="Insertar cliente",command=lambda:v_cliente()).grid(row=2,column=0)
-x=Label(root).grid(row=3,column=0)
-x=Label(root).grid(row=4,column=0)
-x=Label(root).grid(row=5,column=0)
+l1=Label(root,text="Ingrese Nombre: ").grid(row=1,column=0)
+e1= Entry(root).grid(row=1,column=1)
+l2=Label(root,text="Ingrese apellido: ").grid(row=2,column=0)
+e2= Entry(root).grid(row=2,column=1)
+l3=Label(root,text="Ingrese rut: ").grid(row=3,column=0)
+e3= Entry(root).grid(row=3,column=1)
+l4=Label(root,text="Ingrese direccion: ").grid(row=4,column=0)
+e4= Entry(root).grid(row=4,column=1)
+l5=Label(root,text="Ingrese telefono: ").grid(row=5,column=0)
+e5= Entry(root).grid(row=5,column=1)
 x=Label(root).grid(row=6,column=0)
 x=Label(root).grid(row=7,column=0)
 x=Label(root).grid(row=0,column=1)
@@ -91,26 +91,9 @@ x=Label(root).grid(row=5,column=1)
 x=Label(root).grid(row=6,column=1)
 x=Label(root).grid(row=7,column=1)
 
-# v_cliente
-l1=Label(v_cliente,text="Ingrese Nombre: ").grid(row=1,column=0)
-e1= Entry(v_cliente).grid(row=1,column=1)
-l2=Label(v_cliente,text="Ingrese apellido: ").grid(row=2,column=0)
-e2= Entry(v_cliente).grid(row=2,column=1)
-l3=Label(v_cliente,text="Ingrese rut: ").grid(row=3,column=0)
-e3= Entry(v_cliente).grid(row=3,column=1)
-l4=Label(v_cliente,text="Ingrese direccion: ").grid(row=4,column=0)
-e4= Entry(v_cliente).grid(row=4,column=1)
-l5=Label(v_cliente,text="Ingrese telefono: ").grid(row=5,column=0)
-e5= Entry(v_cliente).grid(row=5,column=1)
+boton = Button(root, text="Agregar Cliente",command=lambda:Guardar_nuevo_cliente(get.e1))
+boton.grid(row=2, column=2, sticky=W+E)
 
-boton = Button(v_cliente, text="Agregar Cliente",command=lambda:Guardar_nuevo_cliente(
-    e1.get(),
-    e2.get(),
-    e3.get(),
-    e4.get(),
-    e5.get()
-    ))
-boton.grid(row=6, column=1, sticky=W+E)
 
 mostrar_clientes()
 

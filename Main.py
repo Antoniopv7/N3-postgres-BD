@@ -24,8 +24,9 @@ def Guardar_nuevo_cliente(nombre,apellido,rut,direccion,telefono):
     cursor = conn.cursor()
     query = 'INSERT INTO cliente (nombre,apellido,rut,direccion,telefono) VALUES(%s,%s,%s,%s,%s)'
     cursor.execute(query, (nombre,apellido,rut,direccion,telefono))
-    showinfo("Datos Insertados")
     conn.commit()
+    showinfo("Necu BD",
+    "Datos Insertados")
     conn.close()
 
 def Guardar_nuevo_empleado(nombre,apellido,rut,sueldo):
@@ -39,6 +40,8 @@ def Guardar_nuevo_empleado(nombre,apellido,rut,sueldo):
     query = 'INSERT INTO empleado (nombre,apellido,rut,sueldo) VALUES(%s,%s,%s,%s)'
     cursor.execute(query, (nombre,apellido,rut,sueldo))
     conn.commit()
+    showinfo("Necu BD",
+    "Datos Insertados")
     conn.close()
 
 def mostrar_clientes(v3):
@@ -55,6 +58,28 @@ def mostrar_clientes(v3):
     row=cursor.fetchall()
 
     listbox=Listbox(v3, width=50, height=10)
+    listbox.grid(row=20,columnspan=4,sticky=W+E)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_empleados(v5):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT * FROM empleado ORDER BY empleado_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v5, width=50, height=10)
     listbox.grid(row=20,columnspan=4,sticky=W+E)
 
     for x in row:
@@ -80,7 +105,7 @@ def buscar_cliente(cliente_id):
     listbox.grid(columnspan=4,column=30)
 
     for x in row:
-        listbox.insert(END, x)
+        listbox.insert(END,x)
 
     conn.commit()
     conn.close()
@@ -165,6 +190,9 @@ def ventana4():
 def ventana5():
     v5 = Toplevel()
     v5.geometry("300x200")
+    v5.title("Lista de clientes")
+    labelv5 = Label(v5,text="| Id | Nombre | Apellido | Rut | Sueldo |").grid(row=0,column=0)
+    mostrar_empleados(v5)
 
 #Ventanas
 

@@ -827,8 +827,9 @@ def venta18():
     v3 = Toplevel()
     v3.geometry("300x200")
     v3.title("Listado de boletas")
-    labelv3 = Label(v3,text="Ingrese el ID cliente a eliminar").grid(row=0,column=0)
-    id_cliente= Entry(v3)
+    labelv3 = Label(v3,text="Cliente").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el ID cliente a eliminar").grid(row=0,column=1)
+    id_cliente= Entry(v3).grid(row=1,column=1)
 
 #Ventanas  
 

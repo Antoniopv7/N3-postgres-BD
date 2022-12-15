@@ -4,10 +4,15 @@ import psycopg2
 
 root=Tk()
 root.title("Necu BD")
-root.geometry("800x600")
+
+canvas = Canvas(root, height=600, width=800)
+canvas.pack()
+
+frame = Frame()
+frame.place(relx=0.1,rely=0.1,relwidth=0.8,relheight=0.8)
 
 # Funciones
-def Guardar_nuevo_cliente(e1,e2,e3,e4,e5):
+def Guardar_nuevo_cliente(nombre,apellido,rut,direccion,telefono):
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -16,14 +21,12 @@ def Guardar_nuevo_cliente(e1,e2,e3,e4,e5):
     )
     cursor=conn.cursor()
     query= 'INSERT INTO cliente (nombre,apellido,rut,direccion,telefono) VALUES(%s,%s,%s,%s,%s)'
-    int(e5)
-    cursor.execute(query, (e1,e2,e3,e4,e5))
+    cursor.execute(query, (nombre,apellido,rut,direccion,telefono))
     print("Datos guardados")
     conn.commit()
     conn.close()
-    mostrar_clientes()
 
-def mostrar_clientes():
+def mostrar_clientes(v3):
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -36,8 +39,8 @@ def mostrar_clientes():
 
     row=cursor.fetchall()
 
-    listbox=Listbox(root, width=40, height=10)
-    listbox.grid(column= 1, columnspan=4)
+    listbox=Listbox(v3, width=40, height=10)
+    listbox.grid(row=10,columnspan=4,sticky=W+E)
 
     for x in row:
         listbox.insert(END, x)
@@ -58,7 +61,7 @@ def buscar_cliente(cliente_id):
 
     row=cursor.fetchall()
 
-    listbox=Listbox(root, width=40, height=1)
+    listbox=Listbox(frame, width=40, height=1)
     listbox.grid(columnspan=4,column=30)
 
     for x in row:
@@ -66,35 +69,59 @@ def buscar_cliente(cliente_id):
 
     conn.commit()
     conn.close()
+
+def ventana2():
+    v2=Toplevel()
+    v2.geometry("300x200")
+    v2.title("Insertar datos")
+    espacio1=Label(v2,text="Cliente").grid(row=0,column=0)
+    label1 = Label(v2,text="Ingrese Nombre: ").grid(row=1,column=0)
+    label2 = Label(v2,text="Ingrese apellido: ").grid(row=2,column=0)
+    label3 = Label(v2,text="Ingrese rut: ").grid(row=3,column=0)
+    label4 = Label(v2,text="Ingrese direccion: ").grid(row=4,column=0)
+    label5 = Label(v2,text="Ingrese telefono: ").grid(row=5,column=0)
+    espacio2 = Label(v2).grid(row=6,column=0)
+    espacio3 = Label(v2).grid(row=7,column=0)
+    espacio4 = Label(v2).grid(row=0,column=1)
+    espacio5 = Label(v2).grid(row=6,column=1)
+    espacio6 = Label(v2).grid(row=7,column=1)
+    entry_nom = Entry(v2)
+    entry_nom.grid(row=1,column=1)
+    entry_ape = Entry(v2)
+    entry_ape.grid(row=2,column=1)
+    entry_rut = Entry(v2)
+    entry_rut.grid(row=3,column=1)
+    entry_dir = Entry(v2)
+    entry_dir.grid(row=4,column=1)
+    entry_tel = Entry(v2)
+    entry_tel.grid(row=5,column=1)  
+
+    boton_guardar_cliente = Button(v2,text="Guardar cliente",command=lambda:Guardar_nuevo_cliente(
+        entry_nom.get(),
+        entry_ape.get(),
+        entry_rut.get(),
+        entry_dir.get(),
+        entry_tel.get()
+    ))
+    boton_guardar_cliente.grid(row=6,column=1)
+
+def ventana3():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Lista de clientes")
+    labelv3 = Label(v3,text="Id,NombreApellido,Rut,Direccion,Telefono").grid(row=0,column=0)
+    mostrar_clientes(v3)
+
+
 # Funciones
 
-# agrega nombre del nuevo cliente
-x=Label(root,text="Cliente").grid(row=0,column=0)
-l1=Label(root,text="Ingrese Nombre: ").grid(row=1,column=0)
-e1= Entry(root).grid(row=1,column=1)
-l2=Label(root,text="Ingrese apellido: ").grid(row=2,column=0)
-e2= Entry(root).grid(row=2,column=1)
-l3=Label(root,text="Ingrese rut: ").grid(row=3,column=0)
-e3= Entry(root).grid(row=3,column=1)
-l4=Label(root,text="Ingrese direccion: ").grid(row=4,column=0)
-e4= Entry(root).grid(row=4,column=1)
-l5=Label(root,text="Ingrese telefono: ").grid(row=5,column=0)
-e5= Entry(root).grid(row=5,column=1)
-x=Label(root).grid(row=6,column=0)
-x=Label(root).grid(row=7,column=0)
-x=Label(root).grid(row=0,column=1)
-x=Label(root).grid(row=1,column=1)
-x=Label(root).grid(row=2,column=1)
-x=Label(root).grid(row=3,column=1)
-x=Label(root).grid(row=4,column=1)
-x=Label(root).grid(row=5,column=1)
-x=Label(root).grid(row=6,column=1)
-x=Label(root).grid(row=7,column=1)
+#label frame
+espacio1 = Label(frame,text="Cliente").grid(row=0,column=0)
+#label frame
 
-boton = Button(root, text="Agregar Cliente",command=lambda:Guardar_nuevo_cliente(get.e1))
-boton.grid(row=2, column=2, sticky=W+E)
-
-
-mostrar_clientes()
+#button frame
+boton_v2 = Button(frame, text="Insertar datos",command=lambda:ventana2()).grid(row=1,column=0)
+boton_v3 = Button(frame, text="Mostrar lista de clientes",command=lambda:ventana3()).grid(row=2,column=0)
+#button frame
 
 root.mainloop()

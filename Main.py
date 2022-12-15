@@ -134,6 +134,21 @@ def Guardar_nuevo_pago(estado):
     "Datos Insertados")
     conn.close()
 
+def Guardar_nuevo_factura(proveedor_id,producto_id,cod_pago,tipo_producto,monto_total):
+    conn = psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'INSERT INTO factura (proveedor_id,producto_id,cod_pago,tipo_producto,monto_total) VALUES(%s,%s,%s,%s,%s)'
+    cursor.execute(query, (proveedor_id,producto_id,cod_pago,tipo_producto,monto_total))
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Insertados")
+    conn.close()
+
 # Funciones guardar
 
 # Funciones Mostrar
@@ -292,6 +307,28 @@ def mostrar_id_producto(v3):
     conn.commit()
     conn.close()
 
+def mostrar_id_producto2(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT producto_id,nombre FROM producto join proveedor using(producto_id) ORDER BY producto_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=1)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
 def mostrar_id_proveedor(v3):
     conn=psycopg2.connect(
         host='localhost',
@@ -306,7 +343,29 @@ def mostrar_id_proveedor(v3):
     row=cursor.fetchall()
 
     listbox=Listbox(v3, width=20, height=5)
-    listbox.grid(row=4,columnspan=1,column=1)
+    listbox.grid(row=10,columnspan=1,column=0)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_cod_pago(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT cod_pago FROM pago ORDER BY cod_pago'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=2)
 
     for x in row:
         listbox.insert(END, x)
@@ -516,22 +575,44 @@ def ventana7():
 
 def ventana8():
     v6 = Toplevel()
-    v6.geometry("300x200")
+    v6.geometry("400x600")
     v6.title("Insertar Datos")
     espacio1=Label(v6,text="Factura").grid(row=0,column=0)
-    label1 = Label(v6,text="Ingrese Id_producto: ").grid(row=1,column=0)
-    
-    id_prod = Entry(v6)
-    id_prod.grid(row=1,column=1)
-    mostrar_id_producto(v6)
+    label1 = Label(v6,text="Ingrese Id del proveedor: ").grid(row=1,column=0)
+    label1 = Label(v6,text="Ingrese Id del producto: ").grid(row=2,column=0)
+    label1 = Label(v6,text="Ingrese el codigo del pago: ").grid(row=3,column=0)
+    label1 = Label(v6,text="Ingrese el tipo de producto: ").grid(row=4,column=0)
+    label1 = Label(v6,text="Ingrese el monto total: ").grid(row=5,column=0)
+    proveedor_id = Entry(v6)
+    proveedor_id.grid(row=1,column=1)
+    producto_id = Entry(v6)
+    producto_id.grid(row=2,column=1)
+    cod_pago = Entry(v6)
+    cod_pago.grid(row=3,column=1)
+    tipo_producto = Entry(v6)
+    tipo_producto.grid(row=4,column=1)
+    monto_total = Entry(v6)
+    monto_total.grid(row=5,column=1)
+    label1 = Label(v6,text="| Id_producto | Nombre |").grid(row=9,column=1)
+    mostrar_id_producto2(v6)
+    label1 = Label(v6,text="| Id_provedor | Nombre |").grid(row=9,column=0)
+    mostrar_id_proveedor(v6)
+    label1 = Label(v6,text="| Cod_pago |").grid(row=9,column=2)
+    mostrar_cod_pago(v6)
 
 
-    boton_guardar = Button(v6,text="Guardar Factura",command=lambda:Guardar_nueva_factura(id_prod.get()))
-    boton_guardar.grid(row=2,column=1)
+    boton_guardar = Button(v6,text="Guardar Factura",command=lambda:Guardar_nuevo_factura(
+        proveedor_id.get(), 
+        producto_id.get(), 
+        cod_pago.get(), 
+        tipo_producto.get(), 
+        monto_total.get()
+        ))
+    boton_guardar.grid(row=6,column=1)
 
 def ventana9():
     v6 = Toplevel()
-    v6.geometry("300x200")
+    v6.geometry("400x300")
     v6.title("Insertar Datos")
     espacio1=Label(v6,text="Boleta").grid(row=0,column=0)
     label1 = Label(v6,text="Ingrese Id_Cliente: ").grid(row=1,column=0)
@@ -556,6 +637,11 @@ def ventana9():
     fecha.grid(row=6,column=1)
     cod_pago = Entry(v6)
     cod_pago.grid(row=7,column=1)
+
+    label1= Label(v6,text="| Cod_pago |").grid(row=9,column=2)
+    label1= Label(v6,text="| Id_cliente |").grid(row=9,column=1)
+    mostrar_cod_pago(v6)
+    mostrar_id_cliente(v6)
     
     boton_guardar = Button(v6,text="Guardar Boleta",command=lambda:Guardar_nuevo_boleta(
         cliente_id.get(),

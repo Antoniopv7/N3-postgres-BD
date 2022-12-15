@@ -272,10 +272,10 @@ while not salir:
                 sql='INSERT INTO pago (estado) VALUES(%s)'
                 e=False
                 while(not e):
-                    estado=bool(input("Ingrese el estado del pago Selecionando [true] si el pago esta hecho o [false] si el pago esta pendiente: "))
-                    if estado == True:
+                    estado=input("Ingrese el estado del pago Selecionando [REALIZADO] si el pago esta hecho o [EN ESPERA] si el pago esta pendiente: ")
+                    if estado == "REALIZADO":
                         e=True
-                    elif estado == False:
+                    elif estado == "EN ESPERA":
                         e=True     
                     else:
                         print("porfavor ingrese los datos que se le solicitan")

@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+from tkinter.messagebox import *
 import psycopg2
 
 root = Tk()
@@ -23,6 +24,7 @@ def Guardar_nuevo_cliente(nombre,apellido,rut,direccion,telefono):
     cursor = conn.cursor()
     query = 'INSERT INTO cliente (nombre,apellido,rut,direccion,telefono) VALUES(%s,%s,%s,%s,%s)'
     cursor.execute(query, (nombre,apellido,rut,direccion,telefono))
+    showinfo("Datos Insertados")
     conn.commit()
     conn.close()
 

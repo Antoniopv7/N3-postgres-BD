@@ -6,7 +6,7 @@ import psycopg2
 root = Tk()
 root.title("Necu BD")
 
-canvas = Canvas(root, height=600, width=1250)
+canvas = Canvas(root, height=600, width=1650)
 canvas.pack()
 
 frame = Frame()
@@ -97,7 +97,7 @@ def Guardar_nuevo_pedido(fecha, total, cliente_id):
         database='necu_db'
     )
     cursor = conn.cursor()
-    query = 'INSERT INTO boleta (fecha, total, cliente_id) VALUES(%s,%s,%s)'
+    query = 'INSERT INTO pedido (fecha, total, cliente_id) VALUES(%s,%s,%s)'
     cursor.execute(query, (fecha, total, cliente_id))
     conn.commit()
     showinfo("Necu BD",
@@ -112,7 +112,7 @@ def Guardar_nuevo_despacho(fecha,hora_salida,hora_entrega,cliente_id,empleado_id
         database='necu_db'
     )
     cursor = conn.cursor()
-    query = 'INSERT INTO boleta (fecha,hora_salida,hora_entrega,cliente_id,empleado_id) VALUES(%s,%s,%s,%s,%s)'
+    query = 'INSERT INTO despacho (fecha,hora_salida,hora_entrega,cliente_id,empleado_id) VALUES(%s,%s,%s,%s,%s)'
     cursor.execute(query, (fecha,hora_salida,hora_entrega,cliente_id,empleado_id))
     conn.commit()
     showinfo("Necu BD",
@@ -127,7 +127,7 @@ def Guardar_nuevo_pago(estado):
         database='necu_db'
     )
     cursor = conn.cursor()
-    query = 'INSERT INTO boleta (estado) VALUES(%s)'
+    query = 'INSERT INTO pago (estado) VALUES(%s)'
     cursor.execute(query, (estado))
     conn.commit()
     showinfo("Necu BD",
@@ -153,7 +153,7 @@ def Guardar_nuevo_factura(proveedor_id,producto_id,cod_pago,tipo_producto,monto_
 
 # Funciones Mostrar
 
-def mostrar_boletas():
+def mostrar_boletas(x):
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -166,7 +166,7 @@ def mostrar_boletas():
 
     row=cursor.fetchall()
 
-    listbox=Listbox( width=50, height=10)
+    listbox=Listbox(x, width=50, height=10)
     listbox.grid(row=20,columnspan=4,sticky=W+E)
 
     for x in row:
@@ -175,7 +175,7 @@ def mostrar_boletas():
     conn.commit()
     conn.close()
 
-def mostrar_despachosxdespachador():
+def mostrar_despachosxdespachador(x):
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -183,12 +183,12 @@ def mostrar_despachosxdespachador():
         database='necu_db'
     )
     cursor=conn.cursor()
-    query= 'SELECT nombre, COUNT(*) "Cantidad Despachos" FROM despacho JOIN empleado USING (empleado_id) GROUP BY nombre, empleado_id'
+    query= 'SELECT nombre, COUNT(*) "Cantidad Despachos" FROM empleado JOIN despacho USING (empleado_id) GROUP BY nombre'
     cursor.execute(query)
 
     row=cursor.fetchall()
 
-    listbox=Listbox( width=50, height=10)
+    listbox=Listbox(x, width=50, height=10)
     listbox.grid(row=20,columnspan=4,sticky=W+E)
 
     for x in row:
@@ -197,7 +197,7 @@ def mostrar_despachosxdespachador():
     conn.commit()
     conn.close()
 
-def mostrar_ventas_dias():
+def mostrar_ventas_dias(x):
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -210,7 +210,7 @@ def mostrar_ventas_dias():
 
     row=cursor.fetchall()
 
-    listbox=Listbox( width=50, height=10)
+    listbox=Listbox(x, width=50, height=10)
     listbox.grid(row=20,columnspan=4,sticky=W+E)
 
     for x in row:
@@ -219,7 +219,7 @@ def mostrar_ventas_dias():
     conn.commit()
     conn.close()
 
-def mostrar_productos(): ##LISTADO PRODUCTOS Y CONTROL DE STOCK
+def mostrar_productos(x): ##LISTADO PRODUCTOS Y CONTROL DE STOCK
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -232,7 +232,7 @@ def mostrar_productos(): ##LISTADO PRODUCTOS Y CONTROL DE STOCK
 
     row=cursor.fetchall()
 
-    listbox=Listbox( width=50, height=10)
+    listbox=Listbox(x, width=50, height=10)
     listbox.grid(row=20,columnspan=4,sticky=W+E)
 
     for x in row:
@@ -241,7 +241,7 @@ def mostrar_productos(): ##LISTADO PRODUCTOS Y CONTROL DE STOCK
     conn.commit()
     conn.close()
 
-def mostrar_cliente_frecuente(): ##considerando que en necu con más de 10 compras se vuelve cliente frecuente
+def mostrar_cliente_frecuente(x): ##considerando que en necu con más de 10 compras se vuelve cliente frecuente
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -254,7 +254,7 @@ def mostrar_cliente_frecuente(): ##considerando que en necu con más de 10 compr
 
     row=cursor.fetchall()
 
-    listbox=Listbox( width=50, height=10)
+    listbox=Listbox(x, width=50, height=10)
     listbox.grid(row=20,columnspan=4,sticky=W+E)
 
     for x in row:
@@ -263,7 +263,7 @@ def mostrar_cliente_frecuente(): ##considerando que en necu con más de 10 compr
     conn.commit()
     conn.close()
 
-def mostrar_boletasxcliente():
+def mostrar_boletasxcliente(x):
     conn=psycopg2.connect(
         host='localhost',
         user='postgres',
@@ -276,7 +276,7 @@ def mostrar_boletasxcliente():
 
     row=cursor.fetchall()
 
-    listbox=Listbox( width=50, height=10)
+    listbox=Listbox(x, width=50, height=10)
     listbox.grid(row=20,columnspan=4,sticky=W+E)
 
     for x in row:
@@ -373,6 +373,50 @@ def mostrar_cod_pago(v3):
     conn.commit()
     conn.close()
 
+def mostrar_id_cliente(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT cliente_id FROM cliente ORDER BY cliente_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=1)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_id_empleado(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT empleado_id FROM empleado ORDER BY empleado_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=0)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
 def mostrar_clientes(v3):
     conn=psycopg2.connect(
         host='localhost',
@@ -445,6 +489,25 @@ def buscar_cliente(cliente_id):
 
 # Funciones Buscar
 
+# Funciones Eliminar 
+
+def elimnar_cliente(cliente_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query ='DELETE FROM cliente WHERE cliente_id=%s'
+    cursor.execute(query, (cliente_id))
+    row=cursor.fetchall()
+    conn.commit()
+    conn.close()
+
+
+# Funciones Eliminar
+
 #Ventanas
 
 def ventana2():
@@ -486,7 +549,7 @@ def ventana3():
     v3 = Toplevel()
     v3.geometry("300x200")
     v3.title("Lista de clientes")
-    labelv3 = Label(v3,text="| Id | Nombre | Apellido | Rut | Direccion | Telefono |").grid(row=0,column=0)
+    labelv3 = Label(v3,text="| Id || Nombre || Apellido || Rut || Direccion || Telefono |").grid(row=0,column=0)
     mostrar_clientes(v3)
 
 def ventana4():
@@ -524,7 +587,7 @@ def ventana5():
     v5 = Toplevel()
     v5.geometry("300x200")
     v5.title("Lista de clientes")
-    labelv5 = Label(v5,text="| Id | Nombre | Apellido | Rut | Sueldo |").grid(row=0,column=0)
+    labelv5 = Label(v5,text="| Id || Nombre || Apellido || Rut || Sueldo |").grid(row=0,column=0)
     mostrar_empleados(v5)
 
 def ventana6():
@@ -593,9 +656,9 @@ def ventana8():
     tipo_producto.grid(row=4,column=1)
     monto_total = Entry(v6)
     monto_total.grid(row=5,column=1)
-    label1 = Label(v6,text="| Id_producto | Nombre |").grid(row=9,column=1)
+    label1 = Label(v6,text="| Id_producto || Nombre |").grid(row=9,column=1)
     mostrar_id_producto2(v6)
-    label1 = Label(v6,text="| Id_provedor | Nombre |").grid(row=9,column=0)
+    label1 = Label(v6,text="| Id_provedor || Nombre |").grid(row=9,column=0)
     mostrar_id_proveedor(v6)
     label1 = Label(v6,text="| Cod_pago |").grid(row=9,column=2)
     mostrar_cod_pago(v6)
@@ -669,84 +732,105 @@ def ventana10():
 
 def ventana11():
     v6 = Toplevel()
-    v6.geometry("300x200")
+    v6.geometry("400x300")
     v6.title("Insertar Datos")
     espacio1=Label(v6,text="Pedido").grid(row=0,column=0)
-    label1 = Label(v6,text="Ingrese Id_Cliente: ").grid(row=1,column=0)
-    label1 = Label(v6,text="Ingrese Detalle de la venta: ").grid(row=2,column=0)
-    label1 = Label(v6,text="Ingrese Monto neto: ").grid(row=3,column=0)
-    label1 = Label(v6,text="Ingrese Monto iva: ").grid(row=4,column=0)
-    label1 = Label(v6,text="Ingrese Monto total: ").grid(row=5,column=0)
-    label1 = Label(v6,text="Ingrese Fecha: ").grid(row=6,column=0)
-    label1 = Label(v6,text="Ingrese Codigo del pago: ").grid(row=7,column=0)
-    
-    cliente_id = Entry(v6)
-    cliente_id.grid(row=1,column=1)
-    detalle_venta = Entry(v6)
-    detalle_venta.grid(row=2,column=1)
-    monto_neto = Entry(v6)
-    monto_neto.grid(row=3,column=1)
-    monto_iva = Entry(v6)
-    monto_iva.grid(row=4,column=1)
-    monto_total = Entry(v6)
-    monto_total.grid(row=5,column=1)
+    label1 = Label(v6,text="Ingrese Id la fecha del pedido: ").grid(row=1,column=0)
+    label1 = Label(v6,text="Ingrese el monto total del pedido: ").grid(row=2,column=0)
+    label1 = Label(v6,text="Ingrese el ID del cliente : ").grid(row=3,column=0)   
     fecha = Entry(v6)
-    fecha.grid(row=6,column=1)
-    cod_pago = Entry(v6)
-    cod_pago.grid(row=7,column=1)
+    fecha.grid(row=1,column=1)
+    total = Entry(v6)
+    total.grid(row=2,column=1)
+    cliente_id = Entry(v6)
+    cliente_id.grid(row=3,column=1)
+    label1= Label(v6,text="| Id_cliente |").grid(row=9,column=1)
+    mostrar_id_cliente(v6)
     
     boton_guardar = Button(v6,text="Guardar Pedido",command=lambda:Guardar_nuevo_pedido(
         fecha.get(), 
         total.get(), 
         cliente_id.get()))
-    boton_guardar.grid(row=8,column=1)
+    boton_guardar.grid(row=4,column=1)
 
 def ventana12():
     v6 = Toplevel()
-    v6.geometry("300x200")
+    v6.geometry("450x300")
     v6.title("Insertar Datos")
     espacio1=Label(v6,text="Despacho").grid(row=0,column=0)
-    label1 = Label(v6,text="Ingrese Id_Cliente: ").grid(row=1,column=0)
-    label1 = Label(v6,text="Ingrese Detalle de la venta: ").grid(row=2,column=0)
-    label1 = Label(v6,text="Ingrese Monto neto: ").grid(row=3,column=0)
-    label1 = Label(v6,text="Ingrese Monto iva: ").grid(row=4,column=0)
-    label1 = Label(v6,text="Ingrese Monto total: ").grid(row=5,column=0)
-    label1 = Label(v6,text="Ingrese Fecha: ").grid(row=6,column=0)
-    label1 = Label(v6,text="Ingrese Codigo del pago: ").grid(row=7,column=0)
+    label1 = Label(v6,text="Ingrese la fecha del despacho: ").grid(row=1,column=0)
+    label1 = Label(v6,text="Ingrese la hora de salida del despacho: ").grid(row=2,column=0)
+    label1 = Label(v6,text="Ingrese la hora de entrega del despacho: ").grid(row=3,column=0)
+    label1 = Label(v6,text="Ingrese el id del cliente asociado al despacho: ").grid(row=4,column=0)
+    label1 = Label(v6,text="Ingrese el id del empleado asociado al despacho: ").grid(row=5,column=0)
     
-    cliente_id = Entry(v6)
-    cliente_id.grid(row=1,column=1)
-    detalle_venta = Entry(v6)
-    detalle_venta.grid(row=2,column=1)
-    monto_neto = Entry(v6)
-    monto_neto.grid(row=3,column=1)
-    monto_iva = Entry(v6)
-    monto_iva.grid(row=4,column=1)
-    monto_total = Entry(v6)
-    monto_total.grid(row=5,column=1)
     fecha = Entry(v6)
-    fecha.grid(row=6,column=1)
-    cod_pago = Entry(v6)
-    cod_pago.grid(row=7,column=1)
+    fecha.grid(row=1,column=1)
+    hora_salida = Entry(v6)
+    hora_salida.grid(row=2,column=1)
+    hora_entrega = Entry(v6)
+    hora_entrega.grid(row=3,column=1)
+    cliente_id = Entry(v6)
+    cliente_id.grid(row=4,column=1)
+    empleado_id = Entry(v6)
+    empleado_id.grid(row=5,column=1)
+    mostrar_id_cliente(v6)
+    mostrar_id_empleado(v6)
+    label1 = Label(v6,text="| Id_cliente |").grid(row=7,column=1)
+    label1 = Label(v6,text="| Id_empleado |").grid(row=7,column=0)
     
-    boton_guardar = Button(v6,text="Guardar Despacho",command=lambda:Guardar_nueva_factura(
-        cliente_id.get(),
-        detalle_venta.get(),
-        monto_neto.get(),
-        monto_iva.get(),
-        monto_total.get(), 
+    boton_guardar = Button(v6,text="Guardar Despacho",command=lambda:Guardar_nuevo_despacho(
         fecha.get(), 
-        cod_pago.get()
+        hora_salida.get(), 
+        hora_entrega.get(), 
+        cliente_id.get(), 
+        empleado_id.get()
         ))
-    boton_guardar.grid(row=8,column=1)
+    boton_guardar.grid(row=6,column=1)
 
 def ventana13():
-    v6=Toplevel()
-    v6.geometry("300x200")
-    v6.title("Despachos por despachador")
-    mostrar_despachosxdespachador()
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Despachos por despachador")
+    labelv3 = Label(v3,text="| Nombre || Cantidad de despachos |").grid(row=0,column=0)
+    mostrar_despachosxdespachador(v3)
 
-#Ventanas
+def ventana14():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Ventas por dia")
+    labelv3 = Label(v3,text="| Fecha || Cantidad de ventas |").grid(row=0,column=0)
+    mostrar_ventas_dias(v3)
+
+def ventana15():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Productos y manutencion")
+    labelv3 = Label(v3,text="| Id_producto || Nombre || Stock |").grid(row=0,column=0)
+    mostrar_productos(v3)
+
+def ventana16():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Clientes frecuentes")
+    labelv3 = Label(v3,text="| Cantidad de compras || Nombre |").grid(row=0,column=0)
+    mostrar_cliente_frecuente(v3)
+
+def ventana17():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Listado de boletas")
+    labelv3 = Label(v3,text="| Client id || Detalle venta || Monto neto || Monto iva || Monto total || fecha || Codigo de pago |").grid(row=0,column=0)
+    mostrar_boletas(v3)
+
+def venta18():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Listado de boletas")
+    labelv3 = Label(v3,text="Ingrese el ID cliente a eliminar").grid(row=0,column=0)
+    id_cliente= Entry(v3)
+
+#Ventanas  
 
 #label frame
 cliente = Label(frame,text="Cliente").grid(row=0,column=0)
@@ -790,6 +874,14 @@ espacio = Label(frame).grid(row=1,column=23)
 espacio = Label(frame).grid(row=1,column=22)
 espacio = Label(frame).grid(row=1,column=23)
 Despacho = Label(frame,text="Despacho").grid(row=0,column=24)
+espacio = Label(frame).grid(row=2,column=0)
+espacio = Label(frame).grid(row=2,column=3)
+espacio = Label(frame).grid(row=2,column=24)
+espacio = Label(frame).grid(row=2,column=21)
+espacio = Label(frame).grid(row=2,column=12)
+espacio = Label(frame).grid(row=2,column=18)
+espacio = Label(frame).grid(row=2,column=15)
+espacio = Label(frame).grid(row=4,column=0)
 #label frame
 
 #button frame
@@ -804,9 +896,14 @@ boton_v11 = Button(frame, text="Insertar Pedido",command=lambda:ventana11()).gri
 boton_v12 = Button(frame, text="Insertar Despacho",command=lambda:ventana12()).grid(row=1,column=24)
 
 
-boton_v3 = Button(frame, text="Mostrar clientes",command=lambda:ventana3()).grid(row=2,column=0)
-boton_v5 = Button(frame, text="Mostrar empleados",command=lambda:ventana5()).grid(row=2,column=3)
-boton_v = Button(frame, text="Mostrar")
+boton_v3 = Button(frame, text="Mostrar clientes",command=lambda:ventana3()).grid(row=3,column=0)
+boton_v5 = Button(frame, text="Mostrar empleados",command=lambda:ventana5()).grid(row=3,column=3)
+boton_v13 = Button(frame, text="Mostrar Despachos por despachador",command=lambda:ventana13()).grid(row=3,column=24)
+boton_v14 = Button(frame, text="Mostrar Ventas por dia",command=lambda:ventana14()).grid(row=3,column=21)
+boton_v15 = Button(frame, text="Mostrar Productos y manutencion",command=lambda:ventana15()).grid(row=3,column=12)
+boton_v16 = Button(frame, text="Cliente Frecuente",command=lambda:ventana16()).grid(row=3,column=18)
+boton_v17 = Button(frame, text="Mostrar Listado de boletas",command=lambda:ventana17()).grid(row=3,column=15)
+boton_v18 = Button(frame, text="Eliminar Cliente",command=lambda:ventana18()).grid(row=5,column=0)
 #button frame
 
 root.mainloop()

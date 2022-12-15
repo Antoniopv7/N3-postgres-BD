@@ -138,6 +138,138 @@ def Guardar_nuevo_pago(estado):
 
 # Funciones Mostrar
 
+def mostrar_boletas():
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT * FROM boleta ORDER BY cod_pago'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox( width=50, height=10)
+    listbox.grid(row=20,columnspan=4,sticky=W+E)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_despachosxdespachador():
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT nombre, COUNT(*) "Cantidad Despachos" FROM despacho JOIN empleado USING (empleado_id) GROUP BY nombre, empleado_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox( width=50, height=10)
+    listbox.grid(row=20,columnspan=4,sticky=W+E)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_ventas_dias():
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT fecha, COUNT(*) "Ventas día" FROM pedido GROUP BY fecha ORDER BY fecha;'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox( width=50, height=10)
+    listbox.grid(row=20,columnspan=4,sticky=W+E)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_productos(): ##LISTADO PRODUCTOS Y CONTROL DE STOCK
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    #query= 'SELECT producto_id, stock, CASE when stock >= 10 then '' when stock < 5 then 'comprar a proveedor' else '' END Control_Stock FROM producto;'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox( width=50, height=10)
+    listbox.grid(row=20,columnspan=4,sticky=W+E)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_cliente_frecuente(): ##considerando que en necu con más de 10 compras se vuelve cliente frecuente
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'select count (b.cliente_id), cl.nombre from boleta b join cliente cl using (cliente_id)group by cl.nombre having count (b.cliente_id) > 10;'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox( width=50, height=10)
+    listbox.grid(row=20,columnspan=4,sticky=W+E)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_boletasxcliente():
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'select count (b.cliente_id), cl.nombre from boleta b join cliente cl using (cliente_id) group by cl.nombre;'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox( width=50, height=10)
+    listbox.grid(row=20,columnspan=4,sticky=W+E)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
 def mostrar_id_producto(v3):
     conn=psycopg2.connect(
         host='localhost',
@@ -147,6 +279,28 @@ def mostrar_id_producto(v3):
     )
     cursor=conn.cursor()
     query= 'SELECT producto_id,nombre FROM producto join proveedor using(producto_id) ORDER BY producto_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=4,columnspan=1,column=1)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_id_proveedor(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT proveedor_id,nombre FROM producto join proveedor using(producto_id) ORDER BY producto_id'
     cursor.execute(query)
 
     row=cursor.fetchall()
@@ -419,38 +573,12 @@ def ventana10():
     v6.geometry("300x200")
     v6.title("Insertar Datos")
     espacio1=Label(v6,text="pago").grid(row=0,column=0)
-    label1 = Label(v6,text="Ingrese Id_Cliente: ").grid(row=1,column=0)
-    label1 = Label(v6,text="Ingrese Detalle de la venta: ").grid(row=2,column=0)
-    label1 = Label(v6,text="Ingrese Monto neto: ").grid(row=3,column=0)
-    label1 = Label(v6,text="Ingrese Monto iva: ").grid(row=4,column=0)
-    label1 = Label(v6,text="Ingrese Monto total: ").grid(row=5,column=0)
-    label1 = Label(v6,text="Ingrese Fecha: ").grid(row=6,column=0)
-    label1 = Label(v6,text="Ingrese Codigo del pago: ").grid(row=7,column=0)
+    label1 = Label(v6,text="Ingrese Estado del pago: ").grid(row=1,column=0)
     
-    cliente_id = Entry(v6)
-    cliente_id.grid(row=1,column=1)
-    detalle_venta = Entry(v6)
-    detalle_venta.grid(row=2,column=1)
-    monto_neto = Entry(v6)
-    monto_neto.grid(row=3,column=1)
-    monto_iva = Entry(v6)
-    monto_iva.grid(row=4,column=1)
-    monto_total = Entry(v6)
-    monto_total.grid(row=5,column=1)
-    fecha = Entry(v6)
-    fecha.grid(row=6,column=1)
-    cod_pago = Entry(v6)
-    cod_pago.grid(row=7,column=1)
+    estado = Entry(v6)
+    estado.grid(row=1,column=1)
     
-    boton_guardar = Button(v6,text="Guardar Pago",command=lambda:Guardar_nuevo_pago(
-        cliente_id.get(),
-        detalle_venta.get(),
-        monto_neto.get(),
-        monto_iva.get(),
-        monto_total.get(), 
-        fecha.get(), 
-        cod_pago.get()
-        ))
+    boton_guardar = Button(v6,text="Guardar Pago",command=lambda:Guardar_nuevo_pago(estado.get()))
     boton_guardar.grid(row=8,column=1)
 
 def ventana11():
@@ -481,15 +609,10 @@ def ventana11():
     cod_pago = Entry(v6)
     cod_pago.grid(row=7,column=1)
     
-    boton_guardar = Button(v6,text="Guardar Pedido",command=lambda:Guardar_nueva_factura(
-        cliente_id.get(),
-        detalle_venta.get(),
-        monto_neto.get(),
-        monto_iva.get(),
-        monto_total.get(), 
+    boton_guardar = Button(v6,text="Guardar Pedido",command=lambda:Guardar_nuevo_pedido(
         fecha.get(), 
-        cod_pago.get()
-        ))
+        total.get(), 
+        cliente_id.get()))
     boton_guardar.grid(row=8,column=1)
 
 def ventana12():
@@ -530,6 +653,12 @@ def ventana12():
         cod_pago.get()
         ))
     boton_guardar.grid(row=8,column=1)
+
+def ventana13():
+    v6=Toplevel()
+    v6.geometry("300x200")
+    v6.title("Despachos por despachador")
+    mostrar_despachosxdespachador()
 
 #Ventanas
 

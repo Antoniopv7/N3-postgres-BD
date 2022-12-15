@@ -6,7 +6,7 @@ import psycopg2
 root = Tk()
 root.title("Necu BD")
 
-canvas = Canvas(root, height=600, width=1650)
+canvas = Canvas(root, height=300, width=1700)
 canvas.pack()
 
 frame = Frame()
@@ -373,6 +373,28 @@ def mostrar_cod_pago(v3):
     conn.commit()
     conn.close()
 
+def mostrar_cod_pago2(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT cod_pago FROM pago ORDER BY cod_pago'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=1)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
 def mostrar_id_cliente(v3):
     conn=psycopg2.connect(
         host='localhost',
@@ -395,6 +417,28 @@ def mostrar_id_cliente(v3):
     conn.commit()
     conn.close()
 
+def mostrar_id_cliente2(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT cliente_id FROM cliente ORDER BY cliente_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=2)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
 def mostrar_id_empleado(v3):
     conn=psycopg2.connect(
         host='localhost',
@@ -410,6 +454,116 @@ def mostrar_id_empleado(v3):
 
     listbox=Listbox(v3, width=20, height=5)
     listbox.grid(row=10,columnspan=1,column=0)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_id_empleado2(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT empleado_id FROM empleado ORDER BY empleado_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=1)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_id_pedido(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT codigo FROM pedido ORDER BY codigo'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=1)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_id_pedido1(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT codigo FROM pedido ORDER BY codigo'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=0)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_id_despacho(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT despacho_id FROM despacho ORDER BY despacho_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=1)
+
+    for x in row:
+        listbox.insert(END, x)
+
+    conn.commit()
+    conn.close()
+
+def mostrar_id_proveedor2(v3):
+    conn=psycopg2.connect(
+        host='localhost',
+        user='postgres',
+        password='Antonivan0',
+        database='necu_db'
+    )
+    cursor=conn.cursor()
+    query= 'SELECT proveedor_id FROM proveedor ORDER BY proveedor_id'
+    cursor.execute(query)
+
+    row=cursor.fetchall()
+
+    listbox=Listbox(v3, width=20, height=5)
+    listbox.grid(row=10,columnspan=1,column=1)
 
     for x in row:
         listbox.insert(END, x)
@@ -500,13 +654,220 @@ def elimnar_cliente(cliente_id):
     )
     cursor = conn.cursor()
     query ='DELETE FROM cliente WHERE cliente_id=%s'
-    cursor.execute(query, (cliente_id))
-    row=cursor.fetchall()
+    cursor.execute(query, cliente_id)
     conn.commit()
+    showinfo("Necu BD",
+    "Datos Eliminados")
+    conn.close()
+
+def elimnar_empleado(empleado_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query ='DELETE FROM empleado WHERE empleado_id=%s'
+    cursor.execute(query, empleado_id)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Eliminados")
+    conn.close()
+
+def elimnar_despacho(despacho_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query ='DELETE FROM despacho WHERE despacho_id=%s'
+    cursor.execute(query, despacho_id)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Eliminados")
+    conn.close()
+
+def elimnar_pago(cod_pago):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query ='DELETE FROM pago WHERE cod_pago=%s'
+    cursor.execute(query, cod_pago)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Eliminados")
+    conn.close()
+
+def elimnar_producto(producto_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query ='DELETE FROM producto WHERE producto_id=%s'
+    cursor.execute(query, producto_id)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Eliminados")
+    conn.close()
+
+def elimnar_proveedor(proveedor_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query ='DELETE FROM proveedor WHERE proveedor_id=%s'
+    cursor.execute(query, proveedor_id)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Eliminados")
+    conn.close()
+
+def elimnar_pedido(codigo):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query ='DELETE FROM pedido WHERE codigo=%s'
+    cursor.execute(query, codigo)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Eliminados")
     conn.close()
 
 
 # Funciones Eliminar
+
+# Funciones Modificar
+
+def modificar_despacho(fecha,hora_salida,hora_entrega,cliente_id,empleado_id,despacho_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'UPDATE despacho SET fecha=%s,hora_salida=%s, hora_entrega=%s, cliente_id=%s, empleado_id=%s  WHERE despacho_id=%s'
+    datos=(fecha,hora_salida,hora_entrega,cliente_id,empleado_id,despacho_id)
+    cursor.execute(query,datos)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Modificados")
+    conn.close() 
+
+def modificar_pago(estado, cof_pago):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'UPDATE pago SET estado=%s  WHERE cod_pago=%s'
+    datos=(estado, cof_pago)
+    cursor.execute(query,datos)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Modificados")
+    conn.close()
+
+def modificar_cliente(nombre,apellido,rut,direccion,telefono,id_cliente):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'UPDATE cliente SET nombre=%s,apellido=%s,rut=%s,direccion=%s,telefono=%s WHERE cliente_id=%s'
+    datos=(nombre,apellido,rut,direccion,telefono,id_cliente)
+    cursor.execute(query,datos)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Modificados")
+    conn.close()
+
+def modificar_pedido(fecha,total,cliente_id,codigo):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'UPDATE pedido SET fecha=%s,total=%s,cliente_id=%s WHERE codigo=%s'
+    datos=(fecha,total,cliente_id,codigo)
+    cursor.execute(query,datos)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Modificados")
+    conn.close()
+
+def modificar_empleado(nombre,apellido,rut,sueldo, id_empleado):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'UPDATE empleado SET nombre=%s,apellido=%s,rut=%s,sueldo=%s WHERE empleado_id=%s'
+    datos=(nombre,apellido,rut,sueldo, id_empleado)
+    cursor.execute(query,datos)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Modificados")
+    conn.close()
+
+def modificar_proveedor(producto_id, proveedor_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'UPDATE proveedor SET producto_id=%s WHERE proveedor_id=%s'
+    datos=(producto_id, proveedor_id)
+    cursor.execute(query,datos)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Modificados")
+    conn.close()
+
+def modificar_producto(nombre,descripción,valor,stock, producto_id):
+    conn = psycopg2.connect(
+        host = 'localhost',
+        user = 'postgres',
+        password = 'Antonivan0',
+        database = 'necu_db'
+    )
+    cursor = conn.cursor()
+    query = 'UPDATE producto SET nombre=%s,descripcion=%s,valor=%s,stock=%s WHERE producto_id=%s'
+    datos=(nombre,descripción,valor,stock, producto_id)
+    cursor.execute(query,datos)
+    conn.commit()
+    showinfo("Necu BD",
+    "Datos Modificados")
+    conn.close()
+
+# Funciones Modificar
 
 #Ventanas
 
@@ -823,13 +1184,323 @@ def ventana17():
     labelv3 = Label(v3,text="| Client id || Detalle venta || Monto neto || Monto iva || Monto total || fecha || Codigo de pago |").grid(row=0,column=0)
     mostrar_boletas(v3)
 
-def venta18():
+def ventana18():
+    v3 = Toplevel()
+    v3.geometry("350x200")
+    v3.title("Eliminar cliente")
+    labelv3 = Label(v3,text="Cliente").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el ID cliente a eliminar").grid(row=1,column=0)
+    cliente = Entry(v3)
+    cliente.grid(row=1,column=1)
+    label = Label(v3,text="|Id Cliente|")
+    mostrar_id_cliente(v3)
+
+    boton_eliminar = Button(v3,text="Eliminar Cliente",command=lambda:elimnar_cliente(cliente.get()))
+    boton_eliminar.grid(row=2,column=1)
+
+def ventana19():
     v3 = Toplevel()
     v3.geometry("300x200")
-    v3.title("Listado de boletas")
+    v3.title("Eliminar Empleado")
+    labelv3 = Label(v3,text="Empleado").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el ID empleado a eliminar").grid(row=0,column=1)
+    empleado = Entry(v3)
+    empleado.grid(row=1,column=1)
+    label = Label(v3,text="|Id Empleado|")
+    mostrar_id_empleado2(v3)
+
+    boton_eliminar = Button(v3,text="Eliminar Empleado",command=lambda:elimnar_empleado(empleado.get()))
+    boton_eliminar.grid(row=2,column=1)
+
+def ventana20():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Eliminar Despacho")
+    labelv3 = Label(v3,text="Despacho").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el ID despacho a eliminar").grid(row=0,column=1)
+    despacho = Entry(v3)
+    despacho.grid(row=1,column=1)
+    label = Label(v3,text="|Id Despacho|")
+    mostrar_id_despacho(v3)
+
+    boton_eliminar = Button(v3,text="Eliminar Despacho",command=lambda:elimnar_despacho(despacho.get()))
+    boton_eliminar.grid(row=2,column=1)
+
+
+def ventana21():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Eliminar Pago")
+    labelv3 = Label(v3,text="Pago").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el código del pago a eliminar").grid(row=0,column=1)
+    pago = Entry(v3)
+    pago.grid(row=1,column=1)
+    label = Label(v3,text="|Código Pago|")
+    mostrar_cod_pago2(v3)
+
+    boton_eliminar = Button(v3,text="Eliminar Pago",command=lambda:elimnar_pago(pago.get()))
+    boton_eliminar.grid(row=2,column=1)
+
+
+def ventana22():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Eliminar Producto")
+    labelv3 = Label(v3,text="Producto").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el ID producto a eliminar").grid(row=0,column=1)
+    producto = Entry(v3)
+    producto.grid(row=1,column=1)
+    label = Label(v3,text="|Id Producto|")
+    mostrar_id_producto(v3)
+
+    boton_eliminar = Button(v3,text="Eliminar Producto",command=lambda:elimnar_producto(producto.get()))
+    boton_eliminar.grid(row=2,column=1)
+
+def ventana23():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Eliminar Proveedor")
+    labelv3 = Label(v3,text="Proveedor").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el ID proveedor a eliminar").grid(row=0,column=1)
+    proveedor = Entry(v3)
+    proveedor.grid(row=1,column=1)
+    label = Label(v3,text="|Id Proveedor|")
+    mostrar_id_proveedor2(v3)
+
+    boton_eliminar = Button(v3,text="Eliminar Proveedor",command=lambda:elimnar_proveedor(proveedor.get()))
+    boton_eliminar.grid(row=2,column=1)
+
+
+def ventana24():
+    v3 = Toplevel()
+    v3.geometry("300x200")
+    v3.title("Eliminar Pedido")
+    labelv3 = Label(v3,text="Pedido").grid(row=0,column=0)
+    labelv3 = Label(v3,text="Ingrese el código de pedido a eliminar").grid(row=0,column=1)
+    pedido = Entry(v3)
+    pedido.grid(row=1,column=1)
+    label = Label(v3,text="|Código Pedido|")
+    mostrar_id_pedido(v3)
+
+    boton_eliminar = Button(v3,text="Eliminar Pedido",command=lambda:elimnar_pedido(pedido.get()))
+    boton_eliminar.grid(row=2,column=1)
+
+def ventana_m1():
+    v3 = Toplevel()
+    v3.geometry("400x300")
+    v3.title("Modificar Cliente")
     labelv3 = Label(v3,text="Cliente").grid(row=0,column=0)
-    labelv3 = Label(v3,text="Ingrese el ID cliente a eliminar").grid(row=0,column=1)
-    id_cliente= Entry(v3).grid(row=1,column=1)
+    labelv2 = Label(v3,text="Ingrese el ID cliente a Modificar: ").grid(row=1,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Nombre: ").grid(row=2,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Apellido: ").grid(row=3,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Rut: ").grid(row=4,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Direccion: ").grid(row=5,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Telefono: ").grid(row=6,column=0)
+    id_cliente = Entry(v3)
+    id_cliente.grid(row=1,column=1)
+    nombre = Entry(v3)
+    nombre.grid(row=2,column=1)
+    apellido = Entry(v3)
+    apellido.grid(row=3,column=1)
+    rut = Entry(v3)
+    rut.grid(row=4,column=1)
+    direccion = Entry(v3)
+    direccion.grid(row=5,column=1)
+    telefono = Entry(v3)
+    telefono.grid(row=6,column=1)
+    label = Label(v3,text="|Id Cliente|")
+    mostrar_id_cliente(v3)
+
+    boton_modificar = Button(v3,text="Modificar Cliente",command=lambda:modificar_cliente(
+        nombre.get(), 
+        apellido.get(), 
+        rut.get(), 
+        direccion.get(), 
+        telefono.get(), 
+        id_cliente.get()
+        ))
+    boton_modificar.grid(row=7,column=1)
+
+def ventana_m2():
+    v3 = Toplevel()
+    v3.geometry("400x300")
+    v3.title("Modificar Empleado")
+    labelv3 = Label(v3,text="Empleado").grid(row=0,column=0)
+    labelv2 = Label(v3,text="Ingrese el ID Empleado a Modificar: ").grid(row=1,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Nombre: ").grid(row=2,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Apellido: ").grid(row=3,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Rut: ").grid(row=4,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Sueldo: ").grid(row=5,column=0)
+    empleado_id = Entry(v3)
+    empleado_id.grid(row=1,column=1)
+    nombre = Entry(v3)
+    nombre.grid(row=2,column=1)
+    apellido = Entry(v3)
+    apellido.grid(row=3,column=1)
+    rut = Entry(v3)
+    rut.grid(row=4,column=1)
+    sueldo = Entry(v3)
+    sueldo.grid(row=5,column=1)
+    label = Label(v3,text="|Id Empleado|").grid(row=7,column=0)
+    mostrar_id_empleado(v3)
+
+    boton_modificar = Button(v3,text="Modificar Empleado",command=lambda:modificar_empleado(
+        nombre.get(), 
+        apellido.get(), 
+        rut.get(), 
+        sueldo.get(),
+        empleado_id.get()
+        ))
+    boton_modificar.grid(row=6,column=1)
+
+
+def ventana_m3():
+    v3 = Toplevel()
+    v3.geometry("500x300")
+    v3.title("Modificar despacho")
+    labelv3 = Label(v3,text="Despacho").grid(row=0,column=0)
+    labelv2 = Label(v3,text="Ingrese el id de despacho a modificar: ").grid(row=1,column=0)
+    labelv2 = Label(v3,text="Ingrese nueva fecha de despacho: ").grid(row=2,column=0)
+    labelv2 = Label(v3,text="ingrese nueva hora_salida: ").grid(row=3,column=0)
+    labelv2 = Label(v3,text="Ingrese nueva hora entrega: ").grid(row=4,column=0)
+    labelv2 = Label(v3,text="ingrese nuevo cliente ID: ").grid(row=5,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo empleado ID: ").grid(row=6,column=0)
+
+    despacho_id = Entry(v3)
+    despacho_id.grid(row=1,column=1)
+    fecha = Entry(v3)
+    fecha.grid(row=2,column=1)
+    hora_salida = Entry(v3)
+    hora_salida.grid(row=3,column=1)
+    hora_entrega = Entry(v3)
+    hora_entrega.grid(row=4,column=1)
+    cliente_id = Entry(v3)
+    cliente_id.grid(row=5,column=1)
+    empleado_id = Entry(v3)
+    empleado_id.grid(row=6,column=1)
+    label = Label(v3,text="|Id despacho|").grid(row=8,column=1)
+    mostrar_id_despacho(v3)
+    label = Label(v3,text="|Id empleado|").grid(row=8,column=0)
+    mostrar_id_empleado(v3)
+    label = Label(v3,text="|Id cliente|").grid(row=8,column=2)
+    mostrar_id_cliente2(v3)
+
+    boton_modificar = Button(v3,text="Modificar Empleado",command=lambda:modificar_despacho( 
+        fecha.get(), 
+        hora_salida.get(), 
+        hora_entrega.get(), 
+        cliente_id.get(), 
+        empleado_id.get(),
+        despacho_id.get()
+        ))
+    boton_modificar.grid(row=7,column=1) 
+
+def ventana_m4():
+    v3 = Toplevel()
+    v3.geometry("600x300")
+    v3.title("Modificar pago")
+    labelv3 = Label(v3,text="pago").grid(row=0,column=0)
+    labelv2 = Label(v3,text="Ingrese el codigo del pago que quiere modificar: ").grid(row=1,column=0)
+    labelv2 = Label(v3,text="Ingrese nuevo estado del pago puede ser [Aprobado] o [EN ESPERA]: ").grid(row=2,column=0)
+    cod_pago = Entry(v3)
+    cod_pago.grid(row=1,column=1)
+    estado = Entry(v3)
+    estado.grid(row=2,column=1)
+    label = Label(v3,text="|pago|").grid(row=4,column=1)
+    mostrar_cod_pago2(v3)
+
+    boton_modificar = Button(v3,text="Modificar pago",command=lambda:modificar_pago(
+        estado.get(),
+        cod_pago.get()
+        ))
+    boton_modificar.grid(row=3,column=1)
+
+def ventana_m5():
+    v3 = Toplevel()
+    v3.geometry("400x300")
+    v3.title("Modificar Producto")
+    labelv3 = Label(v3,text="Producto").grid(row=0,column=0)
+    labelv2 = Label(v3,text="Ingrese el ID Producto a Modificar: ").grid(row=1,column=0)
+    labelv2 = Label(v3,text="Ingrese nuevo nombre de Producto: ").grid(row=2,column=0)
+    labelv2 = Label(v3,text="Ingrese nueva descripción de Producto: ").grid(row=3,column=0)
+    labelv2 = Label(v3,text="Ingrese nuevo valor de Producto: ").grid(row=4,column=0)
+    labelv2 = Label(v3,text="Ingrese nuevo stock de Producto: ").grid(row=5,column=0)
+    producto_id = Entry(v3)
+    producto_id.grid(row=1,column=1)
+    nombre = Entry(v3)
+    nombre.grid(row=2,column=1)
+    descripcion = Entry(v3)
+    descripcion.grid(row=3,column=1)
+    valor = Entry(v3)
+    valor.grid(row=4,column=1)
+    stock = Entry(v3)
+    stock.grid(row=5,column=1)
+    label = Label(v3,text="|Id Producto|")
+    mostrar_id_proveedor(v3)
+
+    boton_modificar = Button(v3,text="Modificar Producto",command=lambda:modificar_producto(
+
+    nombre.get(),
+    descripcion.get(),
+    valor.get(),
+    stock.get(),
+    producto_id.get()
+
+    ))
+    boton_modificar.grid(row=7,column=1)
+
+def ventana_m6():
+    v3 = Toplevel()
+    v3.geometry("400x300")
+    v3.title("Modificar Proveedor")
+    labelv3 = Label(v3,text="Proveedor").grid(row=0,column=0)
+    labelv2 = Label(v3,text="Ingrese el ID proveedor a Modificar: ").grid(row=1,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo ID de Producto: ").grid(row=2,column=0)
+    id_proveedor = Entry(v3)
+    id_proveedor.grid(row=1,column=1)
+    id_producto = Entry(v3)
+    id_producto.grid(row=2,column=1)
+    label = Label(v3,text="|Id Proveedor|").grid(row=4,column=0)
+    mostrar_id_proveedor(v3)
+    label = Label(v3,text="|Id Producto|").grid(row=4,column=1)
+    mostrar_id_producto2(v3)
+
+    boton_modificar = Button(v3,text="Modificar Proveedor",command=lambda:modificar_proveedor(
+
+    id_producto.get(),
+    id_proveedor.get()
+    ))
+    boton_modificar.grid(row=3,column=1)
+
+def ventana_m7():
+    v3 = Toplevel()
+    v3.geometry("400x300")
+    v3.title("Modificar Pedido")
+    labelv3 = Label(v3,text="Pedido").grid(row=0,column=0)
+    labelv2 = Label(v3,text="Ingrese el código del pedido a Modificar: ").grid(row=1,column=0)
+    labelv2 = Label(v3,text="Ingrese Nueva Fecha: ").grid(row=2,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Total: ").grid(row=3,column=0)
+    labelv2 = Label(v3,text="Ingrese Nuevo Cliente_ID: ").grid(row=4,column=0)
+    codigo = Entry(v3)
+    codigo.grid(row=1,column=1)
+    fecha = Entry(v3)
+    fecha.grid(row=2,column=1)
+    total = Entry(v3)
+    total.grid(row=3,column=1)
+    cliente_id = Entry(v3)
+    cliente_id.grid(row=4,column=1)
+    label = Label(v3,text="|Código|").grid(row=6,column=0)
+    mostrar_id_pedido1(v3)
+    label = Label(v3,text="|Cliente_id|").grid(row=6,column=1)
+    mostrar_id_cliente(v3)
+
+    boton_modificar = Button(v3,text="Modificar Pedido",command=lambda:modificar_pedido(
+        fecha.get(), 
+        total.get(), 
+        cliente_id.get(),
+        codigo.get()
+        ))
+    boton_modificar.grid(row=5,column=1)
 
 #Ventanas  
 
@@ -883,6 +1554,13 @@ espacio = Label(frame).grid(row=2,column=12)
 espacio = Label(frame).grid(row=2,column=18)
 espacio = Label(frame).grid(row=2,column=15)
 espacio = Label(frame).grid(row=4,column=0)
+espacio = Label(frame).grid(row=6,column=0)
+espacio = Label(frame).grid(row=6,column=3)
+espacio = Label(frame).grid(row=6,column=24)
+espacio = Label(frame).grid(row=6,column=21)
+espacio = Label(frame).grid(row=6,column=6)
+espacio = Label(frame).grid(row=6,column=18)
+espacio = Label(frame).grid(row=6,column=9)
 #label frame
 
 #button frame
@@ -905,6 +1583,19 @@ boton_v15 = Button(frame, text="Mostrar Productos y manutencion",command=lambda:
 boton_v16 = Button(frame, text="Cliente Frecuente",command=lambda:ventana16()).grid(row=3,column=18)
 boton_v17 = Button(frame, text="Mostrar Listado de boletas",command=lambda:ventana17()).grid(row=3,column=15)
 boton_v18 = Button(frame, text="Eliminar Cliente",command=lambda:ventana18()).grid(row=5,column=0)
+boton_v19 = Button(frame, text="Eliminar Empleado",command=lambda:ventana19()).grid(row=5,column=3)
+boton_v20 = Button(frame, text="Eliminar Despacho",command=lambda:ventana20()).grid(row=5,column=24)
+boton_v21 = Button(frame, text="Eliminar Pago",command=lambda:ventana21()).grid(row=5,column=18)
+boton_v22 = Button(frame, text="Eliminar Producto",command=lambda:ventana22()).grid(row=5,column=6)
+boton_v23 = Button(frame, text="Eliminar Proveedor",command=lambda:ventana23()).grid(row=5,column=9)
+boton_v24 = Button(frame, text="Eliminar Pedido",command=lambda:ventana24()).grid(row=5,column=21)
+boton_mod1 = Button(frame, text="Modificar Cliente",command=lambda:ventana_m1()).grid(row=7,column=0)
+boton_mod2 = Button(frame, text="Modificar Empleado",command=lambda:ventana_m2()).grid(row=7,column=3) 
+boton_mod3 = Button(frame, text="Modificar Despacho",command=lambda:ventana_m3()).grid(row=7,column=24) 
+boton_mod4 = Button(frame, text="Modificar Pago",command=lambda:ventana_m4()).grid(row=7,column=18) 
+boton_mod5 = Button(frame, text="Modificar Producto",command=lambda:ventana_m5()).grid(row=7,column=6) 
+boton_mod6 = Button(frame, text="Modificar Proveedor",command=lambda:ventana_m6()).grid(row=7,column=9) 
+boton_mod7 = Button(frame, text="Modificar Pedido",command=lambda:ventana_m7()).grid(row=7,column=21) 
 #button frame
 
 root.mainloop()
